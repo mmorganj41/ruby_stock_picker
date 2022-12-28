@@ -1,15 +1,14 @@
 def stock_picker(stocks)
-    sum = stocks[0]-stocks[-1]
-    best = Array.new(2)
+    min = [stocks[0], 0]
+    days = [0, stocks.length-1]
+    best = stocks[0]-stocks[-1]
     stocks.each_with_index do |stock, i|
-        break if i == stocks.length-1
-        max_slice = stocks[(i+1)..-1].each_with_index.max
-        total = max_slice[0] - stock
-        if sum < total
-            sum = total
-            best[0] = i
-            best[1] = max_slice[1]+i+1
-        end
+        min = [stock, i] if stock < min[0]
+        total = stock - min[0]
+        if total > best
+            days = [min[1], i]
+            best = total
+        end 
     end
-    best
+    return days
 end
